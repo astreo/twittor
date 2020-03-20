@@ -56,10 +56,13 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+    console.log('request:', e.request);
     const respuesta = caches.match(e.request).then(res => {
         if (res) {
+            console.log('del cache:', res);
             return res;
         } else {
+            console.log('de la red:', e.request);
             return fetch(e.request).then(newRes => {
                 return actualizarCacheDinamico(DYNAMIC_CACHE, e.request, newRes);
             });
